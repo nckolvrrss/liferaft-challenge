@@ -13,16 +13,12 @@ export const createServer = () => {
     .use(urlencoded({ extended: true }))
     .use(json())
     .use(cors())
-    // .get("/message/:name", (req, res) => {
-    //   const dataJSON = JSON.stringify(req.params.name);
-    //   fs.appendFileSync("customers.json", dataJSON);
-    //   return res.json({ message: `hello ${req.params.name}` });
-    // })
     .post(
       "/message",
-      body("name").isString(),
+      body("firstName").isString(),
+      body("age").isInt(),
       (req: express.Request, res: express.Response) => {
-        return res.json({ message: `hello world ${req.body.name}` });
+        return res.json({ message: `hello world ${req.body.firstName}` });
       }
     )
     .get("/healthz", (req, res) => {
