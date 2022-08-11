@@ -7,6 +7,7 @@ export default function Web() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [houseNumber, setHouseNumber] = useState("");
   const [response, setResponse] = useState<{ message: string } | null>(null);
   const [error, setError] = useState<string | undefined>();
 
@@ -14,11 +15,17 @@ export default function Web() {
     name: string;
     email: string;
     phoneNumber: string;
+    address: {
+      houseNumber: string;
+    };
   }
   const responseBody: FormDataType = {
     name: "",
     email: "",
     phoneNumber: "",
+    address: {
+      houseNumber: "",
+    },
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -26,6 +33,7 @@ export default function Web() {
     responseBody.name = name;
     responseBody.email = email;
     responseBody.phoneNumber = phoneNumber;
+    responseBody.address.houseNumber = houseNumber;
     console.log(JSON.stringify(responseBody));
 
     try {
@@ -41,7 +49,7 @@ export default function Web() {
         setResponse(response);
       }
       if (response.errors) {
-        setError(response.errors);
+        setError(JSON.stringify(response.errors.errors));
       }
     } catch (err) {
       console.error(err);
@@ -88,6 +96,16 @@ export default function Web() {
             id="phone_number"
             onChange={(e) => inputChangeHandler(setPhoneNumber, e)}
             type="text"
+          />
+        </div>
+        <div>
+          <label htmlFor="house_number">House Number</label>
+        </div>
+        <div>
+          <input
+            id="house_number"
+            onChange={(e) => inputChangeHandler(setHouseNumber, e)}
+            type="int"
           />
         </div>
         <input type="submit" />

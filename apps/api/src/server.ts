@@ -21,9 +21,11 @@ export const createServer = () => {
       (req: express.Request, res: express.Response) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-          return res.json({ errors: JSON.stringify(errors) });
+          return res.json({ errors: errors });
         }
-        return res.json({ message: `hello world ${req.body.name}` });
+        return res.json({
+          message: `hello world ${req.body.address.houseNumber}`,
+        });
       }
     )
     .get("/healthz", (req, res) => {
