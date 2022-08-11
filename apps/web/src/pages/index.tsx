@@ -4,30 +4,38 @@ import { Button } from "ui";
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "http://localhost:3001";
 
 export default function Web() {
-  const [name, setName] = useState<string>("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [age, setAge] = useState("");
   const [response, setResponse] = useState<{ message: string } | null>(null);
   const [error, setError] = useState<string | undefined>();
 
-  useEffect(() => {
-    setResponse(null);
-    setError(undefined);
-  }, [name]);
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setName(e.target.value);
+  interface FormDataType {
+    firstName: string;
+    lastName: string;
+    age: string;
+  }
+  const responseBody: FormDataType = {
+    firstName: "",
+    lastName: "",
+    age: "0",
+  };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    responseBody.firstName = firstName;
+    responseBody.lastName = lastName;
+    responseBody.age = age;
+    console.log(JSON.stringify(responseBody));
 
     try {
       const result = await fetch(`${API_HOST}/message`, {
         method: "POST",
-        body: name,
+        body: JSON.stringify(responseBody),
         headers: {
-          "Content-Type": "text/plain; charset=UTF-8",
-          //   "Content-Type": "application/json",
+          "Content-Type": "application/json",
         },
-      }); //fetch(`${API_HOST}/message/${name}`);
+      });
       const response = await result.json();
       setResponse(response);
     } catch (err) {
@@ -36,23 +44,48 @@ export default function Web() {
     }
   };
 
-  const onReset = () => {
-    setName("");
+  const inputChangeHandler = (
+    setFunction: React.Dispatch<React.SetStateAction<string>>,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setFunction(event.target.value);
   };
 
   return (
     <div>
-      <h1>Web</h1>
+      <h1>LifeRaft Challenge</h1>
       <form onSubmit={onSubmit}>
-        <label htmlFor="name">Name </label>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          value={name}
-          onChange={onChange}
-        ></input>
-        <Button type="submit">Submit</Button>
+        <div>
+          <label htmlFor="first_name">First Name</label>
+        </div>
+        <div>
+          <input
+            id="first_name"
+            onChange={(e) => inputChangeHandler(setFirstName, e)}
+            type="text"
+          />
+        </div>
+        <div>
+          <label htmlFor="last_name">Last Name</label>
+        </div>
+        <div>
+          <input
+            id="last_name"
+            onChange={(e) => inputChangeHandler(setLastName, e)}
+            type="text"
+          />
+        </div>
+        <div>
+          <label htmlFor="age">Age</label>
+        </div>
+        <div>
+          <input
+            id="age"
+            onChange={(e) => inputChangeHandler(setAge, e)}
+            type="number"
+          />
+        </div>
+        <input type="submit" />
       </form>
       {error && (
         <div>
@@ -64,7 +97,6 @@ export default function Web() {
         <div>
           <h3>Greeting</h3>
           <p>{response.message}</p>
-          <Button onClick={onReset}>Reset</Button>
         </div>
       )}
     </div>
