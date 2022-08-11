@@ -20,7 +20,14 @@ export default function Web() {
     e.preventDefault();
 
     try {
-      const result = await fetch(`${API_HOST}/message/${name}`);
+      const result = await fetch(`${API_HOST}/message`, {
+        method: "POST",
+        body: name,
+        headers: {
+          "Content-Type": "text/plain; charset=UTF-8",
+          //   "Content-Type": "application/json",
+        },
+      }); //fetch(`${API_HOST}/message/${name}`);
       const response = await result.json();
       setResponse(response);
     } catch (err) {
