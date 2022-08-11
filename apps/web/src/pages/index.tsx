@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Button } from "ui";
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "http://localhost:3001";
 
@@ -8,6 +7,10 @@ export default function Web() {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [houseNumber, setHouseNumber] = useState("");
+  const [streetName, setStreetName] = useState("");
+  const [city, setCity] = useState("");
+  const [stateProvince, setStateProvince] = useState("");
+  const [country, setCountry] = useState("");
   const [response, setResponse] = useState<{ message: string } | null>(null);
   const [error, setError] = useState<string | undefined>();
 
@@ -17,6 +20,10 @@ export default function Web() {
     phoneNumber: string;
     address: {
       houseNumber: string;
+      streetName: string;
+      city: string;
+      stateProvince: string;
+      country: string;
     };
   }
   const responseBody: FormDataType = {
@@ -25,6 +32,10 @@ export default function Web() {
     phoneNumber: "",
     address: {
       houseNumber: "",
+      streetName: "",
+      city: "",
+      stateProvince: "",
+      country: "",
     },
   };
 
@@ -34,6 +45,10 @@ export default function Web() {
     responseBody.email = email;
     responseBody.phoneNumber = phoneNumber;
     responseBody.address.houseNumber = houseNumber;
+    responseBody.address.streetName = streetName;
+    responseBody.address.city = city;
+    responseBody.address.stateProvince = stateProvince;
+    responseBody.address.country = country;
     console.log(JSON.stringify(responseBody));
 
     try {
@@ -106,6 +121,46 @@ export default function Web() {
             id="house_number"
             onChange={(e) => inputChangeHandler(setHouseNumber, e)}
             type="int"
+          />
+        </div>
+        <div>
+          <label htmlFor="street_name">Street Name</label>
+        </div>
+        <div>
+          <input
+            id="street_name"
+            onChange={(e) => inputChangeHandler(setStreetName, e)}
+            type="string"
+          />
+        </div>
+        <div>
+          <label htmlFor="city">City</label>
+        </div>
+        <div>
+          <input
+            id="city"
+            onChange={(e) => inputChangeHandler(setCity, e)}
+            type="string"
+          />
+        </div>
+        <div>
+          <label htmlFor="state_province">State / Province</label>
+        </div>
+        <div>
+          <input
+            id="state_province"
+            onChange={(e) => inputChangeHandler(setStateProvince, e)}
+            type="string"
+          />
+        </div>
+        <div>
+          <label htmlFor="city">Country</label>
+        </div>
+        <div>
+          <input
+            id="country"
+            onChange={(e) => inputChangeHandler(setCountry, e)}
+            type="string"
           />
         </div>
         <input type="submit" />

@@ -18,13 +18,18 @@ export const createServer = () => {
       body("name").isString(),
       body("email").isEmail(),
       body("phoneNumber").isString(),
+      body("address.houseNumber").isInt(),
+      body("address.streetName").isString(),
+      body("address.city").isString(),
+      body("address.stateProvince").isString(),
+      body("address.country").isString(),
       (req: express.Request, res: express.Response) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
           return res.json({ errors: errors });
         }
         return res.json({
-          message: `hello world ${req.body.address.houseNumber}`,
+          message: `hello world ${req.body.address.city}`,
         });
       }
     )
