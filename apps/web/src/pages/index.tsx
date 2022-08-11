@@ -4,28 +4,28 @@ import { Button } from "ui";
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "http://localhost:3001";
 
 export default function Web() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [age, setAge] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [response, setResponse] = useState<{ message: string } | null>(null);
   const [error, setError] = useState<string | undefined>();
 
   interface FormDataType {
-    firstName: string;
-    lastName: string;
-    age: string;
+    name: string;
+    email: string;
+    phoneNumber: string;
   }
   const responseBody: FormDataType = {
-    firstName: "",
-    lastName: "",
-    age: "0",
+    name: "",
+    email: "",
+    phoneNumber: "",
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    responseBody.firstName = firstName;
-    responseBody.lastName = lastName;
-    responseBody.age = age;
+    responseBody.name = name;
+    responseBody.email = email;
+    responseBody.phoneNumber = phoneNumber;
     console.log(JSON.stringify(responseBody));
 
     try {
@@ -37,7 +37,12 @@ export default function Web() {
         },
       });
       const response = await result.json();
-      setResponse(response);
+      if (response.message) {
+        setResponse(response);
+      }
+      if (response.errors) {
+        setError(response.errors);
+      }
     } catch (err) {
       console.error(err);
       setError("Unable to fetch response");
@@ -56,33 +61,33 @@ export default function Web() {
       <h1>LifeRaft Challenge</h1>
       <form onSubmit={onSubmit}>
         <div>
-          <label htmlFor="first_name">First Name</label>
+          <label htmlFor="name">Name</label>
         </div>
         <div>
           <input
-            id="first_name"
-            onChange={(e) => inputChangeHandler(setFirstName, e)}
+            id="name"
+            onChange={(e) => inputChangeHandler(setName, e)}
             type="text"
           />
         </div>
         <div>
-          <label htmlFor="last_name">Last Name</label>
+          <label htmlFor="email">Email</label>
         </div>
         <div>
           <input
-            id="last_name"
-            onChange={(e) => inputChangeHandler(setLastName, e)}
+            id="email"
+            onChange={(e) => inputChangeHandler(setEmail, e)}
             type="text"
           />
         </div>
         <div>
-          <label htmlFor="age">Age</label>
+          <label htmlFor="phone_number">Phone Number</label>
         </div>
         <div>
           <input
-            id="age"
-            onChange={(e) => inputChangeHandler(setAge, e)}
-            type="number"
+            id="phone_number"
+            onChange={(e) => inputChangeHandler(setPhoneNumber, e)}
+            type="text"
           />
         </div>
         <input type="submit" />

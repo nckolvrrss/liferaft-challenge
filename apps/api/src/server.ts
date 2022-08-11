@@ -15,10 +15,15 @@ export const createServer = () => {
     .use(cors())
     .post(
       "/message",
-      body("firstName").isString(),
-      body("age").isInt(),
+      body("name").isString(),
+      body("email").isEmail(),
+      body("phoneNumber").isString(),
       (req: express.Request, res: express.Response) => {
-        return res.json({ message: `hello world ${req.body.firstName}` });
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.json({ errors: JSON.stringify(errors) });
+        }
+        return res.json({ message: `hello world ${req.body.name}` });
       }
     )
     .get("/healthz", (req, res) => {
