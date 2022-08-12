@@ -1,6 +1,6 @@
-# Turborepo Docker starter
+# LifeRaft Coding Challenge
 
-This is an official Docker starter Turborepo.
+This project is based off an official Docker starter Turborepo with methods for customer form submission. Tailwind CSS has been added to provide some styling.
 
 ## What's inside?
 
