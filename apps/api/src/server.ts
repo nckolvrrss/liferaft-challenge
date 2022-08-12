@@ -15,21 +15,36 @@ export const createServer = () => {
     .use(cors())
     .post(
       "/message",
-      body("name").isString(),
-      body("email").isEmail(),
-      body("phoneNumber").isString(),
-      body("address.houseNumber").isInt(),
-      body("address.streetName").isString(),
-      body("address.city").isString(),
-      body("address.stateProvince").isString(),
-      body("address.country").isString(),
+      body("name").isString().withMessage("The name must be a string"),
+      body("email")
+        .isEmail()
+        .withMessage(
+          "The email address is not formatted correctly. Please try again."
+        ),
+      body("phoneNumber")
+        .isString()
+        .withMessage("The phone number must be a string"),
+      body("address.houseNumber")
+        .isInt()
+        .withMessage("The house number must be an integer"),
+      body("address.streetName")
+        .isString()
+        .withMessage("The street name must be an string"),
+      body("address.city").isString().withMessage("The city must be an string"),
+      body("address.stateProvince")
+        .isString()
+        .withMessage("The state/province must be an string"),
+      body("address.country")
+        .isString()
+        .withMessage("The country must be an string"),
+
       (req: express.Request, res: express.Response) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
           return res.json({ errors: errors });
         }
         return res.json({
-          message: `hello world ${req.body.address.city}`,
+          message: `Success! Your customer contact information has been added. ${req.body.address.city}`,
         });
       }
     )
