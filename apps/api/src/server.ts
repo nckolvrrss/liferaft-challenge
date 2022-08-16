@@ -43,8 +43,17 @@ export const createServer = () => {
         if (!errors.isEmpty()) {
           return res.json({ errors: errors });
         }
-        const dataJSON = JSON.stringify(req.body);
-        fs.appendFileSync("customers.json", dataJSON);
+        let dataJSON: [];
+        try {
+          const dataBuffer = fs.readFileSync("customers.json");
+          dataJSON = JSON.parse(dataBuffer.toString());
+        } catch (e) {
+          console.log(e);
+          dataJSON = [];
+        }
+
+        const updatedJSON = JSON.stringify(dataJSON.push(req.body));
+        fs.writeFileSync("customers.json", updatedJSON);
         return res.json({
           message: `Success! Your customer contact information has been added. ${req.body.address.city}`,
         });
