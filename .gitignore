@@ -34,3 +34,6 @@ yarn-error.log*
 
 # turbo
 .turbo
+
+#text output file
+apps/api/customers.json

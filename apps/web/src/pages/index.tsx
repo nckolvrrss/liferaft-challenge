@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { Button } from "ui";
 import { useEffect, useState } from "react";
+import { ExclamationCircleIcon, MailIcon } from "@heroicons/react/solid";
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "http://localhost:3001";
 
@@ -86,6 +87,7 @@ export default function Web() {
       <Head>
         <title>LifeRaft Challenge - Nicholas Ross</title>
         <link rel="icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="https://rsms.me/inter/inter.css"></link>
       </Head>
       <main className="mx-auto w-auto px-4 pt-16 pb-8 sm:pt-24 lg:px-8">
         <div>
@@ -97,62 +99,102 @@ export default function Web() {
           </h1>{" "}
           <form onSubmit={onSubmit}>
             <div>
-              <label htmlFor="name">Name</label>
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Name
+              </label>
+              <div className="mt-1">
+                <input
+                  type="text"
+                  onChange={(e) => inputChangeHandler(setName, e)}
+                  name="name"
+                  id="name"
+                  className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                  placeholder=""
+                />
+              </div>
+            </div>
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Email
+              </label>
+              <div className="mt-1">
+                <input
+                  type="email"
+                  onChange={(e) => inputChangeHandler(setEmail, e)}
+                  name="email"
+                  id="email"
+                  className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                  placeholder="you@example.com"
+                />
+              </div>
+            </div>
+            <div>
+              <label
+                htmlFor="phone_number"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Phone Number
+              </label>
+              <div className="mt-1">
+                <input
+                  id="phone_number"
+                  onChange={(e) => inputChangeHandler(setPhoneNumber, e)}
+                  type="text"
+                  name="phone_number"
+                  className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                  placeholder=""
+                />
+              </div>
+            </div>
+            <div>
+              <label
+                htmlFor="house_number"
+                className="block text-sm font-medium text-gray-700"
+              >
+                House Number
+              </label>
+              <div className="mt-1">
+                <input
+                  id="house_number"
+                  onChange={(e) => inputChangeHandler(setHouseNumber, e)}
+                  type="text"
+                  name="house_number"
+                  className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                  placeholder=""
+                />
+              </div>
+            </div>
+            <div>
+              <label
+                htmlFor="steet_name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Street Name
+              </label>
+              <div className="mt-1">
+                <input
+                  id="street_name"
+                  onChange={(e) => inputChangeHandler(setStreetName, e)}
+                  type="text"
+                  name="street_name"
+                  className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                  placeholder=""
+                />
+              </div>
+            </div>
+            <div>
+              <label htmlFor="city">Country</label>
             </div>
             <div>
               <input
-                id="name"
-                onChange={(e) => inputChangeHandler(setName, e)}
-                type="text"
-              />
-            </div>
-            <div>
-              <label htmlFor="email">Email</label>
-            </div>
-            <div>
-              <input
-                id="email"
-                onChange={(e) => inputChangeHandler(setEmail, e)}
-                type="text"
-              />
-            </div>
-            <div>
-              <label htmlFor="phone_number">Phone Number</label>
-            </div>
-            <div>
-              <input
-                id="phone_number"
-                onChange={(e) => inputChangeHandler(setPhoneNumber, e)}
-                type="text"
-              />
-            </div>
-            <div>
-              <label htmlFor="house_number">House Number</label>
-            </div>
-            <div>
-              <input
-                id="house_number"
-                onChange={(e) => inputChangeHandler(setHouseNumber, e)}
-                type="int"
-              />
-            </div>
-            <div>
-              <label htmlFor="street_name">Street Name</label>
-            </div>
-            <div>
-              <input
-                id="street_name"
-                onChange={(e) => inputChangeHandler(setStreetName, e)}
-                type="string"
-              />
-            </div>
-            <div>
-              <label htmlFor="city">City</label>
-            </div>
-            <div>
-              <input
-                id="city"
-                onChange={(e) => inputChangeHandler(setCity, e)}
+                id="country"
+                onChange={(e) => inputChangeHandler(setCountry, e)}
                 type="string"
               />
             </div>
@@ -167,16 +209,21 @@ export default function Web() {
               />
             </div>
             <div>
-              <label htmlFor="city">Country</label>
+              <label htmlFor="city">City</label>
             </div>
             <div>
               <input
-                id="country"
-                onChange={(e) => inputChangeHandler(setCountry, e)}
+                id="city"
+                onChange={(e) => inputChangeHandler(setCity, e)}
                 type="string"
               />
             </div>
-            <input type="submit" />
+            <button
+              type="submit"
+              className="inline-flex items-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Submit
+            </button>
           </form>
           {error && (
             <div>
