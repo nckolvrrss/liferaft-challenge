@@ -1,3 +1,5 @@
+import Head from "next/head";
+import { Button } from "ui";
 import { useEffect, useState } from "react";
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "http://localhost:3001";
@@ -80,103 +82,116 @@ export default function Web() {
   };
 
   return (
-    <div>
-      <h1>LifeRaft Challenge</h1>
-      <form onSubmit={onSubmit}>
+    <div className="flex min-h-screen flex-col items-center justify-center py-2">
+      <Head>
+        <title>LifeRaft Challenge - Nicholas Ross</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <main className="mx-auto w-auto px-4 pt-16 pb-8 sm:pt-24 lg:px-8">
         <div>
-          <label htmlFor="name">Name</label>
+          <h1 className="mx-auto max-w-5xl text-center text-6xl font-extrabold leading-[1.1] tracking-tighter text-white sm:text-7xl lg:text-8xl xl:text-8xl">
+            Web <br className="hidden lg:block" />
+            <span className="inline-block bg-gradient-to-r from-brandred to-brandblue bg-clip-text text-transparent">
+              LifeRaft Code Challenge
+            </span>{" "}
+          </h1>{" "}
+          <form onSubmit={onSubmit}>
+            <div>
+              <label htmlFor="name">Name</label>
+            </div>
+            <div>
+              <input
+                id="name"
+                onChange={(e) => inputChangeHandler(setName, e)}
+                type="text"
+              />
+            </div>
+            <div>
+              <label htmlFor="email">Email</label>
+            </div>
+            <div>
+              <input
+                id="email"
+                onChange={(e) => inputChangeHandler(setEmail, e)}
+                type="text"
+              />
+            </div>
+            <div>
+              <label htmlFor="phone_number">Phone Number</label>
+            </div>
+            <div>
+              <input
+                id="phone_number"
+                onChange={(e) => inputChangeHandler(setPhoneNumber, e)}
+                type="text"
+              />
+            </div>
+            <div>
+              <label htmlFor="house_number">House Number</label>
+            </div>
+            <div>
+              <input
+                id="house_number"
+                onChange={(e) => inputChangeHandler(setHouseNumber, e)}
+                type="int"
+              />
+            </div>
+            <div>
+              <label htmlFor="street_name">Street Name</label>
+            </div>
+            <div>
+              <input
+                id="street_name"
+                onChange={(e) => inputChangeHandler(setStreetName, e)}
+                type="string"
+              />
+            </div>
+            <div>
+              <label htmlFor="city">City</label>
+            </div>
+            <div>
+              <input
+                id="city"
+                onChange={(e) => inputChangeHandler(setCity, e)}
+                type="string"
+              />
+            </div>
+            <div>
+              <label htmlFor="state_province">State / Province</label>
+            </div>
+            <div>
+              <input
+                id="state_province"
+                onChange={(e) => inputChangeHandler(setStateProvince, e)}
+                type="string"
+              />
+            </div>
+            <div>
+              <label htmlFor="city">Country</label>
+            </div>
+            <div>
+              <input
+                id="country"
+                onChange={(e) => inputChangeHandler(setCountry, e)}
+                type="string"
+              />
+            </div>
+            <input type="submit" />
+          </form>
+          {error && (
+            <div>
+              <h3>Error</h3>
+              <p>{error}</p>
+            </div>
+          )}
+          {response && (
+            <div>
+              <h3>Greeting</h3>
+              <p>{response.message}</p>
+            </div>
+          )}
         </div>
-        <div>
-          <input
-            id="name"
-            onChange={(e) => inputChangeHandler(setName, e)}
-            type="text"
-          />
-        </div>
-        <div>
-          <label htmlFor="email">Email</label>
-        </div>
-        <div>
-          <input
-            id="email"
-            onChange={(e) => inputChangeHandler(setEmail, e)}
-            type="text"
-          />
-        </div>
-        <div>
-          <label htmlFor="phone_number">Phone Number</label>
-        </div>
-        <div>
-          <input
-            id="phone_number"
-            onChange={(e) => inputChangeHandler(setPhoneNumber, e)}
-            type="text"
-          />
-        </div>
-        <div>
-          <label htmlFor="house_number">House Number</label>
-        </div>
-        <div>
-          <input
-            id="house_number"
-            onChange={(e) => inputChangeHandler(setHouseNumber, e)}
-            type="int"
-          />
-        </div>
-        <div>
-          <label htmlFor="street_name">Street Name</label>
-        </div>
-        <div>
-          <input
-            id="street_name"
-            onChange={(e) => inputChangeHandler(setStreetName, e)}
-            type="string"
-          />
-        </div>
-        <div>
-          <label htmlFor="city">City</label>
-        </div>
-        <div>
-          <input
-            id="city"
-            onChange={(e) => inputChangeHandler(setCity, e)}
-            type="string"
-          />
-        </div>
-        <div>
-          <label htmlFor="state_province">State / Province</label>
-        </div>
-        <div>
-          <input
-            id="state_province"
-            onChange={(e) => inputChangeHandler(setStateProvince, e)}
-            type="string"
-          />
-        </div>
-        <div>
-          <label htmlFor="city">Country</label>
-        </div>
-        <div>
-          <input
-            id="country"
-            onChange={(e) => inputChangeHandler(setCountry, e)}
-            type="string"
-          />
-        </div>
-        <input type="submit" />
-      </form>
-      {error && (
-        <div>
-          <h3>Error</h3>
-          <p>{error}</p>
-        </div>
-      )}
-      {response && (
-        <div>
-          <h3>Greeting</h3>
-          <p>{response.message}</p>
-        </div>
-      )}
+      </main>
     </div>
   );
 }
