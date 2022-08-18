@@ -1,12 +1,9 @@
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import { FormDataType } from "../interfaces";
-
-import {
-  CountryDropdown,
-  RegionDropdown,
-  CountryRegionData,
-} from "react-country-region-selector";
+import { ToastContainer, toast } from "react-toastify";
+import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "http://localhost:3001";
 
@@ -47,12 +44,15 @@ export default function Web() {
         },
       });
       const response = await result.json();
+
+      setSuccess(JSON.stringify(response.success));
       if (response.message) {
         setResponse(response);
+        toast.success(response.message);
       }
       if (response.errors) {
         setError(JSON.stringify(response.errors.errors));
-        setSuccess(JSON.stringify(response.success));
+        toast.error(error);
       }
     } catch (err) {
       console.error(err);
@@ -76,6 +76,7 @@ export default function Web() {
       </Head>
       <main className="mx-auto w-auto px-4 pt-16 pb-8 sm:pt-24 lg:px-8">
         <div>
+          <ToastContainer />
           <h1 className="mx-auto max-w-5xl text-center text-6xl font-extrabold leading-[1.1] tracking-tighter text-white sm:text-7xl lg:text-8xl xl:text-8xl">
             Web <br className="hidden lg:block" />
             <span className="inline-block bg-gradient-to-r from-brandred to-brandblue bg-clip-text text-transparent">
@@ -227,17 +228,6 @@ export default function Web() {
               Submit
             </button>
           </form>
-          {error && (
-            <div>
-              <h3>Error</h3>
-              <p>{error}</p>
-            </div>
-          )}
-          {response && (
-            <div>
-              <p>{response.message}</p>
-            </div>
-          )}
         </div>
       </main>
     </div>
