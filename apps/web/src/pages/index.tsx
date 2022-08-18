@@ -1,13 +1,6 @@
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
-
-import {
-  CountrySelector,
-  StateSelector,
-  CitySelector,
-} from "volkeno-react-country-state-city";
-
-import "volkeno-react-country-state-city/dist/index.css";
+import { FormDataType } from "../interfaces";
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "http://localhost:3001";
 
@@ -17,24 +10,13 @@ export default function Web() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [houseNumber, setHouseNumber] = useState("");
   const [streetName, setStreetName] = useState("");
-  const [country, setCountry] = useState<any>("");
-  const [state, setState] = useState<any>("");
-  const [city, setCity] = useState<any>("");
+  const [country, setCountry] = useState("");
+  const [state, setState] = useState("");
+  const [city, setCity] = useState("");
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
   const [response, setResponse] = useState<{ message: string } | null>(null);
-  interface FormDataType {
-    name: string;
-    email: string;
-    phoneNumber: string;
-    address: {
-      houseNumber: string;
-      streetName: string;
-      city: string;
-      stateProvince: string;
-      country: string;
-    };
-  }
+
   const responseBody: FormDataType = {
     name: "",
     email: "",
@@ -59,7 +41,6 @@ export default function Web() {
     responseBody.address.city = city;
     responseBody.address.stateProvince = state;
     responseBody.address.country = country;
-    //console.log(JSON.stringify(responseBody));
 
     try {
       const result = await fetch(`${API_HOST}/message`, {
@@ -88,18 +69,6 @@ export default function Web() {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setFunction(event.target.value);
-  };
-
-  const handleCountrySelect = (option: any) => {
-    setCountry(option);
-  };
-
-  const handleStateSelect = (option: any) => {
-    setState(option);
-  };
-
-  const handleCitySelect = (option: any) => {
-    setCity(option);
   };
 
   return (
@@ -205,57 +174,6 @@ export default function Web() {
                   name="street_name"
                   className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                   placeholder=""
-                />
-              </div>
-            </div>
-            <div>
-              <label
-                htmlFor="country"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Country
-              </label>
-              <div className="mt-1">
-                <CountrySelector
-                  onChange={handleCountrySelect}
-                  name="country"
-                  placeholder="Select a country"
-                  value={country}
-                />
-              </div>
-            </div>
-            <div>
-              <label
-                htmlFor="state"
-                className="block text-sm font-medium text-gray-700"
-              >
-                State
-              </label>
-              <div className="mt-1">
-                <StateSelector
-                  country={country}
-                  name="state"
-                  value={state}
-                  countryPlaceholder="Select a country first"
-                  onChange={handleStateSelect}
-                />
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="city"
-                className="block text-sm font-medium text-gray-700"
-              >
-                City
-              </label>
-              <div className="mt-1">
-                <CitySelector
-                  state={state}
-                  name="city"
-                  value={city}
-                  statePlaceholder="Select a state first"
-                  onChange={handleCitySelect}
                 />
               </div>
             </div>
