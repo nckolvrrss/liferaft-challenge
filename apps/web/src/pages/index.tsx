@@ -1,7 +1,13 @@
 import Head from "next/head";
-import { Button } from "ui";
-import { useEffect, useState } from "react";
-import { ExclamationCircleIcon, MailIcon } from "@heroicons/react/solid";
+import React, { useEffect, useState } from "react";
+
+import {
+  CountrySelector,
+  StateSelector,
+  CitySelector,
+} from "volkeno-react-country-state-city";
+
+import "volkeno-react-country-state-city/dist/index.css";
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "http://localhost:3001";
 
@@ -11,12 +17,11 @@ export default function Web() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [houseNumber, setHouseNumber] = useState("");
   const [streetName, setStreetName] = useState("");
-  const [city, setCity] = useState("");
-  const [stateProvince, setStateProvince] = useState("");
-  const [country, setCountry] = useState("");
-  const [response, setResponse] = useState<{ message: string } | null>(null);
+  const [country, setCountry] = useState<any>("");
+  const [state, setState] = useState<any>("");
+  const [city, setCity] = useState<any>("");
   const [error, setError] = useState<string | undefined>();
-
+  const [response, setResponse] = useState<{ message: string } | null>(null);
   interface FormDataType {
     name: string;
     email: string;
@@ -44,15 +49,16 @@ export default function Web() {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     responseBody.name = name;
     responseBody.email = email;
     responseBody.phoneNumber = phoneNumber;
     responseBody.address.houseNumber = houseNumber;
     responseBody.address.streetName = streetName;
     responseBody.address.city = city;
-    responseBody.address.stateProvince = stateProvince;
+    responseBody.address.stateProvince = state;
     responseBody.address.country = country;
-    console.log(JSON.stringify(responseBody));
+    //console.log(JSON.stringify(responseBody));
 
     try {
       const result = await fetch(`${API_HOST}/message`, {
@@ -80,6 +86,18 @@ export default function Web() {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setFunction(event.target.value);
+  };
+
+  const handleCountrySelect = (option: any) => {
+    setCountry(option);
+  };
+
+  const handleStateSelect = (option: any) => {
+    setState(option);
+  };
+
+  const handleCitySelect = (option: any) => {
+    setCity(option);
   };
 
   return (
@@ -189,34 +207,55 @@ export default function Web() {
               </div>
             </div>
             <div>
-              <label htmlFor="city">Country</label>
+              <label
+                htmlFor="country"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Country
+              </label>
+              <div className="mt-1">
+                <CountrySelector
+                  onChange={handleCountrySelect}
+                  name="country"
+                  placeholder="Select a country"
+                  value={country}
+                />
+              </div>
             </div>
             <div>
-              <input
-                id="country"
-                onChange={(e) => inputChangeHandler(setCountry, e)}
-                type="string"
-              />
+              <label
+                htmlFor="state"
+                className="block text-sm font-medium text-gray-700"
+              >
+                State
+              </label>
+              <div className="mt-1">
+                <StateSelector
+                  country={country}
+                  name="state"
+                  value={state}
+                  countryPlaceholder="Select a country first"
+                  onChange={handleStateSelect}
+                />
+              </div>
             </div>
+
             <div>
-              <label htmlFor="state_province">State / Province</label>
-            </div>
-            <div>
-              <input
-                id="state_province"
-                onChange={(e) => inputChangeHandler(setStateProvince, e)}
-                type="string"
-              />
-            </div>
-            <div>
-              <label htmlFor="city">City</label>
-            </div>
-            <div>
-              <input
-                id="city"
-                onChange={(e) => inputChangeHandler(setCity, e)}
-                type="string"
-              />
+              <label
+                htmlFor="city"
+                className="block text-sm font-medium text-gray-700"
+              >
+                City
+              </label>
+              <div className="mt-1">
+                <CitySelector
+                  state={state}
+                  name="city"
+                  value={city}
+                  statePlaceholder="Select a state first"
+                  onChange={handleCitySelect}
+                />
+              </div>
             </div>
             <button
               type="submit"
