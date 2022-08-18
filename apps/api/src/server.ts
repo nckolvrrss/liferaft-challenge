@@ -41,7 +41,7 @@ export const createServer = () => {
       (req: express.Request, res: express.Response) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-          return res.json({ errors: errors });
+          return res.json({ success: false, errors: errors });
         }
         let dataJSON = [];
         try {
@@ -56,7 +56,8 @@ export const createServer = () => {
         const updatedJSON = JSON.stringify(dataJSON);
         fs.writeFileSync("customers.json", updatedJSON);
         return res.json({
-          message: `Success! Your customer contact information has been added. ${req.body.address.city}`,
+          success: true,
+          message: `Success! Your customer contact information has been added.`,
         });
       }
     )
