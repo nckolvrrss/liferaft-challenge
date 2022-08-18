@@ -21,6 +21,7 @@ export default function Web() {
   const [state, setState] = useState<any>("");
   const [city, setCity] = useState<any>("");
   const [error, setError] = useState<string | undefined>();
+  const [success, setSuccess] = useState<string | undefined>();
   const [response, setResponse] = useState<{ message: string } | null>(null);
   interface FormDataType {
     name: string;
@@ -74,6 +75,7 @@ export default function Web() {
       }
       if (response.errors) {
         setError(JSON.stringify(response.errors.errors));
+        setSuccess(JSON.stringify(response.success));
       }
     } catch (err) {
       console.error(err);
@@ -268,6 +270,8 @@ export default function Web() {
             <div>
               <h3>Error</h3>
               <p>{error}</p>
+              <h3>Success</h3>
+              <p>{success}</p>
             </div>
           )}
           {response && (
