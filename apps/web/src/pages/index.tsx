@@ -23,35 +23,25 @@ export default function Web() {
   const [success, setSuccess] = useState<string | undefined>();
   const [response, setResponse] = useState<{ message: string } | null>(null);
 
-  const responseBody: FormDataType = {
-    name: "",
-    email: "",
-    phoneNumber: "",
-    address: {
-      houseNumber: "",
-      streetName: "",
-      city: "",
-      region: "",
-      country: "",
-    },
-  };
-
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    responseBody.name = name;
-    responseBody.email = email;
-    responseBody.phoneNumber = phoneNumber;
-    responseBody.address.houseNumber = houseNumber;
-    responseBody.address.streetName = streetName;
-    responseBody.address.city = city;
-    responseBody.address.region = region;
-    responseBody.address.country = country;
-
+    const body: FormDataType = {
+      name,
+      email,
+      phoneNumber,
+      address: {
+        houseNumber,
+        streetName,
+        city,
+        stateProvince: region,
+        country,
+      },
+    };
     try {
       const result = await fetch(`${API_HOST}/message`, {
         method: "POST",
-        body: JSON.stringify(responseBody),
+        body: JSON.stringify(body),
         headers: {
           "Content-Type": "application/json",
         },
@@ -76,21 +66,6 @@ export default function Web() {
   ) => {
     setFunction(event.target.value);
   };
-
-  const selectChangeHandler = (
-    setFunction: React.Dispatch<React.SetStateAction<string>>,
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setFunction(event.target.value);
-  };
-  //TODO: figure out how to set state / onChange for country and region given not input fields
-  //   selectCountry (val) {
-  //   setState({ country: val });
-  // }
-
-  // selectRegion (val) {
-  //   setState({ region: val });
-  // }
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
@@ -197,51 +172,15 @@ export default function Web() {
                   placeholder=""
                 />
               </div>
-              {/* <div>
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Country
-                </label>
-                <div className="mt-1">
-                  <input
-                    type="text"
-                    onChange={(e) => inputChangeHandler(setCountry, e)}
-                    name="country"
-                    id="country"
-                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                    placeholder=""
-                  />
-                </div>
-              </div>
-              <div>
-                <label
-                  htmlFor="state"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  state
-                </label>
-                <div className="mt-1">
-                  <input
-                    type="text"
-                    onChange={(e) => inputChangeHandler(setState, e)}
-                    name="state"
-                    id="state"
-                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                    placeholder=""
-                  />
-                </div>
-              </div> */}
               <div>
                 <CountryDropdown
                   value={country}
-                  onChange={(e) => selectChangeHandler(setCountry, e)}
+                  onChange={(val) => setCountry(val)}
                 />
                 <RegionDropdown
                   country={country}
                   value={region}
-                  onChange={(val) => selectRegion(val)}
+                  onChange={(val) => setRegion(val)}
                 />
               </div>
               <div>
