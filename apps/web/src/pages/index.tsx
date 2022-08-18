@@ -172,34 +172,52 @@ export default function Web() {
                   placeholder=""
                 />
               </div>
-              <div>
+            </div>
+            <div>
+              <label
+                htmlFor="country"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Country
+              </label>
+              <div className="mt-1">
                 <CountryDropdown
                   value={country}
                   onChange={(val) => setCountry(val)}
                 />
+              </div>
+            </div>
+            <div>
+              <label
+                htmlFor="region"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Region
+              </label>
+              <div className="mt-1">
                 <RegionDropdown
                   country={country}
                   value={region}
                   onChange={(val) => setRegion(val)}
                 />
               </div>
-              <div>
-                <label
-                  htmlFor="city"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  city
-                </label>
-                <div className="mt-1">
-                  <input
-                    type="text"
-                    onChange={(e) => inputChangeHandler(setCity, e)}
-                    name="city"
-                    id="city"
-                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                    placeholder=""
-                  />
-                </div>
+            </div>
+            <div>
+              <label
+                htmlFor="city"
+                className="block text-sm font-medium text-gray-700"
+              >
+                City
+              </label>
+              <div className="mt-1">
+                <input
+                  type="text"
+                  onChange={(e) => inputChangeHandler(setCity, e)}
+                  name="city"
+                  id="city"
+                  className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                  placeholder=""
+                />
               </div>
             </div>
             <button
