@@ -2,6 +2,12 @@ import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import { FormDataType } from "../interfaces";
 
+import {
+  CountryDropdown,
+  RegionDropdown,
+  CountryRegionData,
+} from "react-country-region-selector";
+
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "http://localhost:3001";
 
 export default function Web() {
@@ -11,7 +17,7 @@ export default function Web() {
   const [houseNumber, setHouseNumber] = useState("");
   const [streetName, setStreetName] = useState("");
   const [country, setCountry] = useState("");
-  const [state, setState] = useState("");
+  const [region, setRegion] = useState("");
   const [city, setCity] = useState("");
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
@@ -25,7 +31,7 @@ export default function Web() {
       houseNumber: "",
       streetName: "",
       city: "",
-      stateProvince: "",
+      region: "",
       country: "",
     },
   };
@@ -39,7 +45,7 @@ export default function Web() {
     responseBody.address.houseNumber = houseNumber;
     responseBody.address.streetName = streetName;
     responseBody.address.city = city;
-    responseBody.address.stateProvince = state;
+    responseBody.address.region = region;
     responseBody.address.country = country;
 
     try {
@@ -70,6 +76,21 @@ export default function Web() {
   ) => {
     setFunction(event.target.value);
   };
+
+  const selectChangeHandler = (
+    setFunction: React.Dispatch<React.SetStateAction<string>>,
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setFunction(event.target.value);
+  };
+  //TODO: figure out how to set state / onChange for country and region given not input fields
+  //   selectCountry (val) {
+  //   setState({ country: val });
+  // }
+
+  // selectRegion (val) {
+  //   setState({ region: val });
+  // }
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
@@ -176,6 +197,71 @@ export default function Web() {
                   placeholder=""
                 />
               </div>
+              {/* <div>
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Country
+                </label>
+                <div className="mt-1">
+                  <input
+                    type="text"
+                    onChange={(e) => inputChangeHandler(setCountry, e)}
+                    name="country"
+                    id="country"
+                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    placeholder=""
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  htmlFor="state"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  state
+                </label>
+                <div className="mt-1">
+                  <input
+                    type="text"
+                    onChange={(e) => inputChangeHandler(setState, e)}
+                    name="state"
+                    id="state"
+                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    placeholder=""
+                  />
+                </div>
+              </div> */}
+              <div>
+                <CountryDropdown
+                  value={country}
+                  onChange={(e) => selectChangeHandler(setCountry, e)}
+                />
+                <RegionDropdown
+                  country={country}
+                  value={region}
+                  onChange={(val) => selectRegion(val)}
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="city"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  city
+                </label>
+                <div className="mt-1">
+                  <input
+                    type="text"
+                    onChange={(e) => inputChangeHandler(setCity, e)}
+                    name="city"
+                    id="city"
+                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    placeholder=""
+                  />
+                </div>
+              </div>
             </div>
             <button
               type="submit"
@@ -188,13 +274,10 @@ export default function Web() {
             <div>
               <h3>Error</h3>
               <p>{error}</p>
-              <h3>Success</h3>
-              <p>{success}</p>
             </div>
           )}
           {response && (
             <div>
-              <h3>Greeting</h3>
               <p>{response.message}</p>
             </div>
           )}

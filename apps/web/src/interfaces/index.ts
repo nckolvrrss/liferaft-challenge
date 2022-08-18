@@ -6,7 +6,7 @@ export interface FormDataType {
     houseNumber: string;
     streetName: string;
     city: string;
-    stateProvince: string;
+    region: string;
     country: string;
   };
 }
