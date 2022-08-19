@@ -25,6 +25,9 @@ WORKDIR /app
 # Don't run production as root
 RUN addgroup --system --gid 1001 expressjs
 RUN adduser --system --uid 1001 expressjs
+WORKDIR /app
+RUN chown -R expressjs:expressjs /app
+RUN chmod 755 /app
 USER expressjs
 COPY --from=installer /app .
 
