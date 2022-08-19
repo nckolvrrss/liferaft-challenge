@@ -16,9 +16,6 @@ export default function Web() {
   const [country, setCountry] = useState("");
   const [region, setRegion] = useState("");
   const [city, setCity] = useState("");
-  const [error, setError] = useState<string | undefined>();
-  const [success, setSuccess] = useState<string | undefined>();
-  const [response, setResponse] = useState<{ message: string } | null>(null);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,18 +42,14 @@ export default function Web() {
       });
       const response = await result.json();
 
-      setSuccess(JSON.stringify(response.success));
-      if (response.message) {
-        setResponse(response);
+      if (response.success == true) {
         toast.success(response.message);
       }
-      if (response.errors) {
-        setError(JSON.stringify(response.errors.errors));
-        toast.error(error);
+      if (response.success == false) {
+        toast.error(JSON.stringify(response.errors.errors));
       }
     } catch (err) {
       console.error(err);
-      setError("Unable to fetch response");
     }
   };
 
