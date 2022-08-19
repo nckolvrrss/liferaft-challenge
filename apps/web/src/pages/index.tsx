@@ -46,7 +46,9 @@ export default function Web() {
         toast.success(response.message);
       }
       if (response.success == false) {
-        toast.error(JSON.stringify(response.errors.errors));
+        toast.error(JSON.stringify(response.errors.errors), {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
       }
     } catch (err) {
       console.error(err);
@@ -69,7 +71,7 @@ export default function Web() {
       </Head>
       <main className="mx-auto w-auto px-4 pt-16 pb-8 sm:pt-24 lg:px-8">
         <div>
-          <ToastContainer />
+          <ToastContainer style={{ width: "500px" }} />
           <h1 className="mx-auto max-w-5xl text-center text-6xl font-extrabold leading-[1.1] tracking-tighter text-white sm:text-7xl lg:text-8xl xl:text-8xl">
             Web <br className="hidden lg:block" />
             <span className="inline-block bg-gradient-to-r from-brandred to-brandblue bg-clip-text text-transparent">
