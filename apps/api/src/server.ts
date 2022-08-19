@@ -40,6 +40,7 @@ export const createServer = () => {
 
       (req: express.Request, res: express.Response) => {
         const errors = validationResult(req);
+
         if (!errors.isEmpty()) {
           return res.json({ success: false, errors: errors });
         }
